@@ -1,0 +1,5 @@
+{
+"node":{"root": 7, "parent": null, "left": 4, "right":3},
+"node":{"root": 4, "parent":7, "left": 1, "right":6},
+"node":{"root": 13, "parent":7, "left": 10, "right":16}
+}
