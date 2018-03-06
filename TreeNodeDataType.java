@@ -3,15 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package newpackage;
+package avltree;
 
 /**
  *
  * @author luism
  */
-public class TreeNodeDataType {
+public class TreeNodeDataType implements TreeInterface{
     
-    private Object key;
+    private Object key, height;
     private TreeNodeDataType parent, leftChild, rightChild;
 
     public TreeNodeDataType(Object key, TreeNodeDataType parent, 
@@ -57,6 +57,7 @@ public class TreeNodeDataType {
     }
     
 
+    @Override
     public boolean isTree() {
         
         return (int)this.leftChild.getKey() < (int)this.key && 
@@ -65,6 +66,48 @@ public class TreeNodeDataType {
 
     public void setRightChild(TreeNodeDataType rightChild) {
         this.rightChild = rightChild;
+    }
+
+    public Object getHeight() {
+        
+        if(isLeafNodeNow()){
+            
+            this.height = 1;
+            
+        }else{
+            
+            this.height = 1 + Math.max((int)getLeftChild().getHeight(), 
+                    (int)getRightChild().getHeight());
+            
+        }
+        
+        return height;
+    }
+
+    @Deprecated
+    public void updateHeight() {
+        
+        if(isLeafNodeNow()){
+            
+            this.height = 1;
+            
+        }else{
+            
+            this.height = 1 + Math.max((int)getLeftChild().getHeight(), 
+                    (int)getRightChild().getHeight());
+            
+        }
+        
+    }
+    
+    public boolean isLeafNodeNow() {
+
+        return getLeftChild() == null
+                && (TreeNodeDataType) getRightChild() == null;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
     }
     
 }
