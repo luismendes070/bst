@@ -5,6 +5,7 @@
  */
 package avltree;
 
+import avltree.interfaces.AVLTreeInterface;
 import java.util.ArrayList;
 
 /**
@@ -17,9 +18,8 @@ public class BinarySearch implements AVLTreeInterface {
 
     public BinarySearch(Object root) {
         this.root = new TreeNodeDataType(root, null, null, null);
-        
+
         //this.root = AVLInsert((int)root, null);
-        
     }
 
     public TreeNodeDataType find(int mySearch, TreeNodeDataType r) {
@@ -50,15 +50,15 @@ public class BinarySearch implements AVLTreeInterface {
     public TreeNodeDataType nextElement(TreeNodeDataType node) {
 
         if (node != null) {
-            
-            if(node.getRightChild() == null){
-              //Case I: right child is null
-                return rightAncestor(node);  
-                
+
+            if (node.getRightChild() == null) {
+                //Case I: right child is null
+                return rightAncestor(node);
+
                 //Case II: left child
-            }else{
+            } else {
                 return leftDescendant(node.getRightChild());
-            } 
+            }
         } else {
             return null;
         }
@@ -67,21 +67,21 @@ public class BinarySearch implements AVLTreeInterface {
     public TreeNodeDataType rightAncestor(TreeNodeDataType node) {
 
         if (node != null && node.getParent() != null) {
-            
+
             if ((int) node.getKey() < (int) node.getParent().getKey()) {
-                
+
                 return (TreeNodeDataType) node.getParent();
-                
+
             } else {
-                
+
                 return rightAncestor(node.getParent());
-                
+
             }
-            
+
         } else {
-            
+
             return null;//null input
-            
+
         }
 
     }
@@ -91,7 +91,6 @@ public class BinarySearch implements AVLTreeInterface {
 
         if (node != null) {
 
-            
             if (node.getLeftChild() == null) {
                 return node;
             } else {
@@ -135,16 +134,19 @@ public class BinarySearch implements AVLTreeInterface {
             remove(node);
 
             if (node.getLeftChild() != null) {
-                promote(node.getLeftChild());
+
+                promote(node, node.getLeftChild());
+
             }
 
         } else {
-            TreeNodeDataType x = nextElement(null);
+            TreeNodeDataType x = nextElement(node);
 
-            if (x != null) {
-                //x.setLeftChild(null);
+            if (x.getLeftChild() != null) {
+
                 replace(node, x);
-                promote(x.getRightChild());
+                promote(node, x.getRightChild());
+
             }
 
         }
@@ -154,7 +156,7 @@ public class BinarySearch implements AVLTreeInterface {
     public void AVLDelete(int key, TreeNodeDataType n) {
 
         n = delete(n);
-        
+
         TreeNodeDataType m = n.getParent();
 
         rebalance(m);
@@ -164,29 +166,37 @@ public class BinarySearch implements AVLTreeInterface {
     public ArrayList<TreeNodeDataType> rangeSearch(int start, int end, TreeNodeDataType root) {
 
         ArrayList<TreeNodeDataType> l = new ArrayList<>();
-        
+
         TreeNodeDataType n = find(start, root);
-        
-        while((int)n.getKey() <= end){
-            if((int)n.getKey() >= end){
+
+        while ((int) n.getKey() <= end) {
+            if ((int) n.getKey() >= end) {
                 l.add(n);
             }
             n = nextElement(n);
         }
-        
+
         return l;
     }
 
     private void remove(TreeNodeDataType node) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        node = null;
     }
 
-    private void promote(TreeNodeDataType leftChild) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    private void promote(TreeNodeDataType node, TreeNodeDataType child) {
+
+        node.getParent().setParent(child);
+
     }
 
     private void replace(TreeNodeDataType node, TreeNodeDataType x) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
+        TreeNodeDataType aux = x;
+
+        x = node;
+
+        node = aux;
+
     }
 
     void nearestNeighbor(int i, TreeNodeDataType root) {
@@ -238,23 +248,23 @@ public class BinarySearch implements AVLTreeInterface {
         if (n != null) {
 
             TreeNodeDataType p = n.getParent();
-            
+
             int leftHeight = 1;
-            
-            if(n.getLeftChild() != null){
+
+            if (n.getLeftChild() != null) {
                 leftHeight = (int) n.getLeftChild().getHeight();
             }
-            
+
             int rightHeight = 1;
-            
-            if(n.getRightChild() != null){
+
+            if (n.getRightChild() != null) {
                 rightHeight = (int) n.getRightChild().getHeight();
             }
 
-            if ( leftHeight > ( rightHeight + 1)) {
+            if (leftHeight > (rightHeight + 1)) {
                 rebalanceRight(n);
             }
-            if ( rightHeight > ( leftHeight + 1)) {
+            if (rightHeight > (leftHeight + 1)) {
                 rebalanceLeft(n);
             }
             adjustHeight(n);
@@ -287,29 +297,56 @@ public class BinarySearch implements AVLTreeInterface {
     private void adjustHeight(TreeNodeDataType n) {
 
         int left = 1;
-        
-        if(n.getLeftChild() != null){
+
+        if (n.getLeftChild() != null) {
             left = (int) n.getLeftChild().getHeight();
         }
-        
+
         int right = 1;
-        
-        if(n.getRightChild() != null){
+
+        if (n.getRightChild() != null) {
             right = (int) n.getRightChild().getHeight();
         }
 
-        
-        
         n.setHeight(1 + (int) Math.max(left, right));
 
     }
 
+    /**
+     * A
+     *   \
+     *      B
+     *         \
+     *          C
+     */
     private void rotateLeft(TreeNodeDataType m) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
+        TreeNodeDataType a = null;
+        TreeNodeDataType b = null;
+        TreeNodeDataType c = null;
+
     }
 
-    private void rotateRight(TreeNodeDataType n) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    private void rotateRight(TreeNodeDataType x) {
+
+        TreeNodeDataType p = null;
+        TreeNodeDataType y = null;
+        TreeNodeDataType b = null;
+
+        p = x.getParent();
+        y = x.getLeftChild();
+        b = y.getRightChild();
+
+        y.setParent(p);
+
+        p.appropriateChild(y);
+
+        x.setParent(y);
+        y.setRightChild(x);
+
+        b.setParent(x);
+        x.setLeftChild(b);
+
     }
 
     public void inOrderTraversal(TreeNodeDataType tree) {
