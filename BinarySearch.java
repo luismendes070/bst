@@ -144,7 +144,7 @@ public class BinarySearch implements AVLTreeInterface {
 
             if (x.getLeftChild() != null) {
 
-                replace(node, x);
+                replace(node, x);// x.getParent sera m em AVLDelete
                 promote(node, x.getRightChild());
 
             }
@@ -288,36 +288,50 @@ public class BinarySearch implements AVLTreeInterface {
 
         //AdjustHeight on affected nodes?
         adjustHeight(n);
+        adjustHeight(m);
+
     }
 
     private void rebalanceLeft(TreeNodeDataType n) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    
     private void adjustHeight(TreeNodeDataType n) {
 
-        int left = 1;
+//        int left = 0;
+//        int right = 0;
+//
+//        if (n.getLeftChild() != null) {
+//            left = (int) n.getLeftChild().getHeight();
+//        }
+//
+//
+//        if (n.getRightChild() != null) {
+//            right = (int) n.getRightChild().getHeight();
+//        }
+//
+//        n.setHeight(1 + (int) Math.max(left, right));
+        if (n != null) {
+            n.updateHeight();
+        }
 
         if (n.getLeftChild() != null) {
-            left = (int) n.getLeftChild().getHeight();
+            n.getLeftChild().updateHeight();
         }
-
-        int right = 1;
 
         if (n.getRightChild() != null) {
-            right = (int) n.getRightChild().getHeight();
+            n.getRightChild().updateHeight();
         }
-
-        n.setHeight(1 + (int) Math.max(left, right));
 
     }
 
     /**
      * A
-     *   \
-     *      B
-     *         \
-     *          C
+     * \
+     * B
+     * \
+     * C
      */
     private void rotateLeft(TreeNodeDataType m) {
 
@@ -356,12 +370,19 @@ public class BinarySearch implements AVLTreeInterface {
         }
         inOrderTraversal(tree.getLeftChild());
         print(tree.getKey());
+        printHeight(tree.getHeight());
         inOrderTraversal(tree.getRightChild());
 
     }
 
     private void print(Object key) {
-        System.out.print(" " + (int) key);
+        System.out.print("{ key:" + (int) key);
+    }
+
+    private void printHeight(Object height) {
+
+        System.out.print(" height: " + (int) height + " }");
+        
     }
 
 }

@@ -27,6 +27,15 @@ public class TreeNodeDataType implements TreeInterface{
         
         setRightChild(rightChild);
         
+        updateHeight();
+        
+        if(leftChild != null){
+            leftChild.updateHeight();
+        }
+        
+        if(rightChild != null){
+            rightChild.updateHeight();
+        }
         
     }
 
@@ -86,7 +95,7 @@ public class TreeNodeDataType implements TreeInterface{
         return height;
     }
 
-    @Deprecated
+    
     public void updateHeight() {
         
         if(isLeafNodeNow()){
