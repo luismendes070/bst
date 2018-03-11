@@ -11,32 +11,33 @@ import avltree.interfaces.TreeInterface;
  *
  * @author luism
  */
-public class TreeNodeDataType implements TreeInterface{
-    
+public class TreeNodeDataType implements TreeInterface {
+
     private Object key, height;
+    private boolean balance;
     private TreeNodeDataType parent, leftChild, rightChild;
 
-    public TreeNodeDataType(Object key, TreeNodeDataType parent, 
+    public TreeNodeDataType(Object key, TreeNodeDataType parent,
             TreeNodeDataType leftChild, TreeNodeDataType rightChild) {
-        
+
         setKey(key);
-       
+
         setParent(parent);
-       
+
         setLeftChild(leftChild);
-        
+
         setRightChild(rightChild);
-        
-        updateHeight();
-        
-        if(leftChild != null){
-            leftChild.updateHeight();
+
+        adjustHeight();
+
+        if (leftChild != null) {
+            leftChild.adjustHeight();
         }
-        
-        if(rightChild != null){
-            rightChild.updateHeight();
+
+        if (rightChild != null) {
+            rightChild.adjustHeight();
         }
-        
+
     }
 
     public Object getKey() {
@@ -65,14 +66,14 @@ public class TreeNodeDataType implements TreeInterface{
 
     public void setParent(TreeNodeDataType parent) {
         this.parent = parent;
+
     }
-    
 
     @Override
     public boolean isTree() {
-        
-        return (int)this.leftChild.getKey() < (int)this.key && 
-                (int)this.rightChild.getKey() > (int)this.key;
+
+        return (int) this.leftChild.getKey() < (int) this.key
+                && (int) this.rightChild.getKey() > (int) this.key;
     }
 
     public void setRightChild(TreeNodeDataType rightChild) {
@@ -80,49 +81,61 @@ public class TreeNodeDataType implements TreeInterface{
     }
 
     public Object getHeight() {
-        
-        if(isLeafNodeNow()){
-            
-            this.height = 1;
-            
-        }else{
-            
-            this.height = 1 + Math.max((int)getLeftChild().getHeight(), 
-                    (int)getRightChild().getHeight());
-            
+
+        if(height == null){
+            return 1;
         }
         
         return height;
     }
 
-    
-    public void updateHeight() {
+    public void adjustHeight() {
         
-        if(isLeafNodeNow()){
-            
+        this.height = 1;
+        
+        if (isLeafNodeNow()) {
+
             this.height = 1;
+
+        } else if (getLeftChild() != null) {
+
+            if (getRightChild() != null) {
+                
+                int left = (int) getLeftChild().getHeight();
+                int right = (int) getRightChild().getHeight();
+                
+                this.height = 1 + Math.max(left,right);
+                
+            }else{
+                this.height = 1;
+            }
             
         }else{
-            
-            this.height = 1 + Math.max((int)getLeftChild().getHeight(), 
-                    (int)getRightChild().getHeight());
-            
+            this.height = 1;
         }
-        
+
     }
-    
+
     public boolean isLeafNodeNow() {
 
         return getLeftChild() == null
-                && (TreeNodeDataType) getRightChild() == null;
+                && getRightChild() == null;
+    }
+
+    void appropriateChild(TreeNodeDataType y) {
+
+    }
+
+    public TreeNodeDataType grandParent(TreeNodeDataType paiDoNeto) {
+        return paiDoNeto.getParent();
+    }
+
+    public void SetGrandParent(TreeNodeDataType node) {
+        node.setParent(node);
     }
 
     public void setHeight(int height) {
         this.height = height;
     }
 
-    void appropriateChild(TreeNodeDataType y) {
-        
-    }
-    
 }

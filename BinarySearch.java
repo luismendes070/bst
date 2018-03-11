@@ -17,16 +17,17 @@ public class BinarySearch implements AVLTreeInterface {
     TreeNodeDataType root;
 
     public BinarySearch(Object root) {
-        this.root = new TreeNodeDataType(root, null, null, null);
+        //this.root = new TreeNodeDataType(root, null, null, null);
 
-        //this.root = AVLInsert((int)root, null);
+        this.root = AVLInsert((int)root, null);
     }
 
     public TreeNodeDataType find(int mySearch, TreeNodeDataType r) {
 
         int rootKey;
 
-        rootKey = (int) r.getKey();
+        if(r != null){
+            rootKey = (int) r.getKey();
 
         if (rootKey == mySearch) {
             return r;
@@ -44,6 +45,11 @@ public class BinarySearch implements AVLTreeInterface {
             return r;
         }
         System.out.println("\nÁrvore vazia!!!\n");
+        }else{
+            r = new TreeNodeDataType(mySearch, null, null, null);
+            return r;
+        }
+        
         return null;
     }
 
@@ -108,6 +114,8 @@ public class BinarySearch implements AVLTreeInterface {
 
         if (p != null) {
 
+            System.out.print("\nInserting..."+k);
+            
             TreeNodeDataType node = new TreeNodeDataType(k, p, null, null);
 
             return node;
@@ -118,10 +126,19 @@ public class BinarySearch implements AVLTreeInterface {
 
     public TreeNodeDataType AVLInsert(int k, TreeNodeDataType root) {
 
-        root = insert(k, root);//novo node
+        
+        root = insert(k, root);//novo node com parent 
 
         TreeNodeDataType n = find(k, root);// estimated place for new node
 
+        if((int)n.getKey() != k){
+            
+            System.out.println("n.getKey: "+(int)n.getKey());
+            
+            System.out.println("k: "+ k);
+            
+        }
+        
         rebalance(n);
 
         return n;
@@ -282,9 +299,10 @@ public class BinarySearch implements AVLTreeInterface {
         TreeNodeDataType m = n.getLeftChild();
 
         if ((int) m.getRightChild().getHeight() > (int) m.getLeftChild().getHeight()) {
-            rotateLeft(m);
+            left(m);
         }
-        rotateRight(n);
+        //rotateRightCS(n);
+        right(n);
 
         //AdjustHeight on affected nodes?
         adjustHeight(n);
@@ -293,55 +311,53 @@ public class BinarySearch implements AVLTreeInterface {
     }
 
     private void rebalanceLeft(TreeNodeDataType n) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+        //TreeNodeDataType temp = n.grandParent(n).getRightChild();
+        left(n);
+        
+        
     }
 
     
     private void adjustHeight(TreeNodeDataType n) {
-
-//        int left = 0;
-//        int right = 0;
-//
-//        if (n.getLeftChild() != null) {
-//            left = (int) n.getLeftChild().getHeight();
-//        }
-//
-//
-//        if (n.getRightChild() != null) {
-//            right = (int) n.getRightChild().getHeight();
-//        }
-//
-//        n.setHeight(1 + (int) Math.max(left, right));
+        
         if (n != null) {
-            n.updateHeight();
+            n.adjustHeight();
         }
 
         if (n.getLeftChild() != null) {
-            n.getLeftChild().updateHeight();
+            n.getLeftChild().adjustHeight();
         }
 
         if (n.getRightChild() != null) {
-            n.getRightChild().updateHeight();
+            n.getRightChild().adjustHeight();
         }
 
     }
 
-    /**
-     * A
-     * \
-     * B
-     * \
-     * C
-     */
-    private void rotateLeft(TreeNodeDataType m) {
+    private void left(TreeNodeDataType grandParent) {
 
-        TreeNodeDataType a = null;
-        TreeNodeDataType b = null;
-        TreeNodeDataType c = null;
+        TreeNodeDataType temp = null;
+        
+        temp = grandParent.getRightChild();
+        grandParent.setRightChild(temp.getLeftChild());
+        
+        temp.setLeftChild(grandParent);
+        
 
     }
 
-    private void rotateRight(TreeNodeDataType x) {
+    private void right(TreeNodeDataType grandParent) {
+
+        TreeNodeDataType temp = null;
+        
+        temp = grandParent.getLeftChild();
+        grandParent.setLeftChild(temp.getRightChild());
+        
+    }
+    
+    @Deprecated
+    private void rotateRightCS(TreeNodeDataType x) {
 
         TreeNodeDataType p = null;
         TreeNodeDataType y = null;
@@ -364,7 +380,9 @@ public class BinarySearch implements AVLTreeInterface {
     }
 
     public void inOrderTraversal(TreeNodeDataType tree) {
-
+        
+        rebalance(tree);
+        
         if (tree == null) {
             return;
         }

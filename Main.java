@@ -10,122 +10,15 @@ package avltree;
  * @author luism
  *
  */
-//[1][4][6][7][10][13][15]
+//Coursera Stanford Audit[1][4][6][7][10][13][15]
+//YouTube
 public class Main {
 
     public static void main(String[] args) {
 
-        BinarySearch bst = new BinarySearch(7);
-        
-        //root = new TreeNodeDataType(7, null, null, null);
-        
-
-        TreeNodeDataType quatro;
-        
-        //quatro = new TreeNodeDataType(4, root, null, null);
-        quatro = bst.AVLInsert(4, bst.root);
-
-        TreeNodeDataType um;
-        //um = new TreeNodeDataType(1, quatro, null, null);
-        um = bst.AVLInsert(1, quatro);
-        
-        TreeNodeDataType seis; 
-        //seis = new TreeNodeDataType(6, quatro, null, null);
-        seis = bst.AVLInsert(6, quatro);
-        
-        quatro.setLeftChild(um);
-        quatro.setRightChild(seis);
-
-        TreeNodeDataType treze = new TreeNodeDataType(13, bst.root, null, null);//not right yet
-        TreeNodeDataType dez = new TreeNodeDataType(10, treze, null, null);
-        TreeNodeDataType quinze = new TreeNodeDataType(15, treze, null, null);
-
-        treze.setLeftChild(dez);
-        treze.setRightChild(quinze);
-
-        bst.root.setLeftChild(quatro);
-        bst.root.setRightChild(treze);
-        
-        //setHeight
-        //bst.root.updateHeight(seis);
-
-        System.out.println("inOrderTraversal");
-        bst.inOrderTraversal(bst.root);
-        
-        System.out.println("\nfind");
-
-        int key = 7;//7,5 missing key,4, insert 3
-
-        TreeNodeDataType node = bst.find(key, bst.root);
-
-        if (node == null) {
-            System.out.printf("\nfind(%d): Árvore vazia", key);
-        } else {
-
-            int result = (int) node.getKey();
-
-            System.out.printf("\nfind(%d): %d \n", key, result);
-
-            if (node.isLeafNodeNow()) {
-                System.out.println("Leaf Node");
-            }
-
-            if (key == result) {
-                TreeNodeDataType leftChild = (TreeNodeDataType) node.getLeftChild();
-                if (leftChild != null) {
-                    System.out.printf("\nLeft child: %d", (int) leftChild.getKey());
-                } else {
-                    System.out.printf("\nLeft child: []");
-                }
-
-                TreeNodeDataType rightChild = (TreeNodeDataType) node.getRightChild();
-                if (rightChild != null) {
-                    System.out.printf("\nRight child: %d\n", (int) rightChild.getKey());
-                } else {
-                    System.out.printf("\nRight child: []");
-                }
-                
-                TreeNodeDataType parent = (TreeNodeDataType) node.getParent();
-                
-                if(parent != null)
-                System.out.println("\n Parent: "+(int)parent.getKey());
-                else
-                System.out.println("\nNO Parent\n");
-                
-            } else {
-                System.out.println("Missing key\n");
-            }
-
-        }
-
-        System.out.print("\nNext node: ");
-        TreeNodeDataType next = bst.nextElement(node);
-        if(next != null){
-            System.out.print(" "+next.getKey());
-        }
-        
-        int start = 5;
-        int end = 12;
-        
-        System.out.printf("\n\nrangeStart(%d,%d)", start, end);
-        
-        System.out.print(" "+ bst.rangeSearch(start,end, bst.root));
-        System.out.println("\nNearest neighbor...");
-        //bst.nearestNeighbor(3, bst.root);
-        System.out.println("Inserting 3...");
-        TreeNodeDataType novo = bst.AVLInsert(3, bst.root);// modifica árvore
-        
-        if(novo.getParent() != null){
-            System.out.println("\nParent: "+(int)novo.getParent().getKey());
-        }
-        
-        key = 7;
-        System.out.println("Calculating AVLDelete("+key+")...");
-        bst.AVLDelete(key, bst.root);
-
-        System.out.println("inOrderTraversal");
-        bst.inOrderTraversal(bst.root);
+        CourseraStanford cs = new CourseraStanford();
+        YouTube yt = new YouTube();
         
     }
-
+    
 }
