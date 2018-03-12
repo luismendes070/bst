@@ -125,8 +125,7 @@ public class BinarySearch implements AVLTreeInterface {
     }
 
     public TreeNodeDataType AVLInsert(int k, TreeNodeDataType root) {
-
-        
+    
         root = insert(k, root);//novo node com parent 
 
         TreeNodeDataType n = find(k, root);// estimated place for new node

@@ -5,6 +5,7 @@
  */
 package avltree;
 
+import avltree.interfaces.AVLTreeInterface;
 import avltree.interfaces.TreeInterface;
 
 /**
@@ -89,6 +90,7 @@ public class TreeNodeDataType implements TreeInterface {
         return height;
     }
 
+    
     public void adjustHeight() {
         
         this.height = 1;

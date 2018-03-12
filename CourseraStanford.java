@@ -13,6 +13,8 @@ public class CourseraStanford {
 
     public CourseraStanford() {
         
+        System.out.println("CouseraStanford");
+        
         BinarySearch bst = new BinarySearch(7);
         
         //root = new TreeNodeDataType(7, null, null, null);
