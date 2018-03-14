@@ -107,13 +107,15 @@ public class CourseraStanford {
         int start = 5;
         int end = 12;
         
-        System.out.printf("\n\nrangeStart(%d,%d)", start, end);
-        
+        System.out.printf("\n\nrangeSearch(%d,%d)", start, end);
         System.out.print(" "+ bst.rangeSearch(start,end, bst.root));
-        System.out.println("\nNearest neighbor...");
-        //bst.nearestNeighbor(3, bst.root);
-        System.out.println("Inserting 3...");
-        TreeNodeDataType novo = bst.AVLInsert(3, bst.root);// modifica árvore
+        
+        //key = 7;
+        //System.out.println("\nNearest neighbor of "+key);
+        //bst.nearestNeighbor(key, bst.root);
+        key = 3;
+        System.out.println("Inserting "+key);
+        TreeNodeDataType novo = bst.AVLInsert(key, bst.root);// modifica árvore
         
         if(novo.getParent() != null){
             System.out.println("\nParent: "+(int)novo.getParent().getKey());
@@ -121,12 +123,16 @@ public class CourseraStanford {
         
         key = 7;
         System.out.println("Calculating AVLDelete("+key+")...");
-        bst.AVLDelete(key, bst.root);
+        bst.AVLDelete(key);
 
         System.out.println("inOrderTraversal");
         bst.inOrderTraversal(bst.root);
     
+        System.out.println("Size: "+bst.root.size());
+        
         //TODO: delete root
+        
+        bst.levelTraversal(bst.root);
         
     }
     

@@ -64,16 +64,16 @@ public class BinarySearchTest {
         bSInstance = new BinarySearch(7);
         r = bSInstance.AVLInsert(4, bSInstance.root);
         mySearch = 4;
-        r = bSInstance.root;
-        result = bSInstance.find(mySearch, r);
+        //r = bSInstance.root;
+        result = bSInstance.find(mySearch, bSInstance.root);
         assertEquals(expResult, result);
         
         System.out.println("find root right child");
         bSInstance = new BinarySearch(7);
         r = bSInstance.AVLInsert(13, bSInstance.root);
         mySearch = 13;
-        r = bSInstance.root;
-        result = bSInstance.find(mySearch, r);
+        //r = bSInstance.root;
+        result = bSInstance.find(mySearch, bSInstance.root);
         assertEquals(expResult, result);
         
     }
@@ -192,9 +192,11 @@ public class BinarySearchTest {
         int key = 0;
         TreeNodeDataType n = null;
         BinarySearch instance = null;
-        instance.AVLDelete(key, n);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        int size = instance.root.size();
+        instance.AVLDelete(key);
+        
+        assertEquals(size-1, instance.root.size());
+        
     }
 
     /**
@@ -228,48 +230,7 @@ public class BinarySearchTest {
         fail("The test case is a prototype.");
     }
 
-    /**
-     * Test of isAVLProperty method, of class BinarySearch.
-     */
-    @Test
-    public void testIsAVLProperty() {
-        System.out.println("isAVLProperty");
-        TreeNodeDataType node = null;
-        BinarySearch instance = null;
-        boolean expResult = false;
-        boolean result = instance.isAVLProperty(node);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of teorema method, of class BinarySearch.
-     */
-    @Test
-    public void testTeorema() {
-        System.out.println("teorema");
-        TreeNodeDataType node = null;
-        BinarySearch instance = null;
-        instance.teorema(node);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of fibonacci method, of class BinarySearch.
-     */
-    @Test
-    public void testFibonacci() {
-        System.out.println("fibonacci");
-        int n = 0;
-        BinarySearch instance = null;
-        int expResult = 0;
-        int result = instance.fibonacci(n);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
+    
 
     /**
      * Test of rebalance method, of class BinarySearch.

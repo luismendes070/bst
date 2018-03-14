@@ -18,7 +18,7 @@ public class Exemplo3 {
     
     public Exemplo3() {
         
-        System.out.println("Exemplo3");
+        System.out.println("\nExemplo3");
         
         BinarySearch bst = new BinarySearch(4);
         
@@ -42,9 +42,10 @@ public class Exemplo3 {
         dez.setRightChild(doze);
         oito.setRightChild(nove);
         
-        System.out.println("\ninOrderTraversal[final]");
+        System.out.println("\n\ninOrderTraversal[final]");
         bst.inOrderTraversal(bst.root);
         
+        bst.levelTraversal(bst.root);
     }
     
 }

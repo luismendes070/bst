@@ -17,7 +17,7 @@ public class Exemplo2 {
 
     public Exemplo2() {
         
-        System.out.println("Exemplo2");
+        System.out.println("\nExemplo2");
         
         BinarySearch bst = new BinarySearch(10);
         
@@ -41,6 +41,8 @@ public class Exemplo2 {
         
         System.out.println("\ninOrderTraversal[final]");
         bst.inOrderTraversal(bst.root);
+        
+        bst.levelTraversal(bst.root);
         
     }
     
