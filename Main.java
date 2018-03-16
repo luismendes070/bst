@@ -5,6 +5,7 @@
  */
 package main;
 
+import avltree.CSDelete;
 import avltree.CourseraStanford;
 import avltree.YouTube;
 
@@ -19,8 +20,9 @@ public class Main {
 
     public static void main(String[] args) {
 
-        CourseraStanford cs = new CourseraStanford();
-        YouTube yt = new YouTube();
+        //CourseraStanford cs = new CourseraStanford();
+        CSDelete csd = new CSDelete();
+        //YouTube yt = new YouTube();
         
     }
     

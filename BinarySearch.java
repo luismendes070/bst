@@ -14,15 +14,12 @@ import java.util.ArrayList;
 public class BinarySearch {
 
     TreeNodeDataType root;
+    private TreeNodeDataType m;//avl
 
     public BinarySearch(Object rootKey) {
-        //this.root = new TreeNodeDataType(root, null, null, null);
 
-        this.root = AVLInsert((int)rootKey, null);//root height 1
-        
-        //System.out.println("BinarySearch(rootKey)");
-        //System.out.println(""+this.root.getHeight().toString());
-        
+        this.root = AVLInsert((int) rootKey, null);// root.height == 1
+
     }
 
     public TreeNodeDataType find(int mySearch, TreeNodeDataType r) {
@@ -117,8 +114,7 @@ public class BinarySearch {
 
         if (p != null) {
 
-            System.out.print("\nInserting..." + k);
-
+            //System.out.print("\nInserting..." + k);
             TreeNodeDataType node = new TreeNodeDataType(k, p, null, null);
 
             return node;
@@ -133,54 +129,44 @@ public class BinarySearch {
 
         TreeNodeDataType n = find(k, root);// estimated place for new node
 
-        if ((int) n.getKey() != k) {
-
-            System.out.println("n.getKey: " + (int) n.getKey());
-
-            System.out.println("k: " + k);
-
-        }
-
         rebalance(n);
 
         return n;
 
     }
 
-    public TreeNodeDataType delete(TreeNodeDataType node) {
+    public void delete(TreeNodeDataType n) {
 
-        if (node.getRightChild() == null) {
-            remove(node);
+        if (n.getRightChild() == null) {
 
-            if (node.getLeftChild() != null) {
+            remove(n);
 
-                promote(node, node.getLeftChild());
+            if (n.getLeftChild() != null) {
+
+                promote(n.getLeftChild());
 
             }
 
         } else {
-            TreeNodeDataType x = nextElement(node);
+
+            TreeNodeDataType x = nextElement(n);
 
             if (x.getLeftChild() != null) {
 
-                replace(node, x);// x.getParent sera m em AVLDelete
-                promote(node, x.getRightChild());
+                setM(x.getParent());
+
+                replace(n, x);
+                promote(x.getRightChild());
 
             }
-
         }
-        return node;
     }
 
-    public void AVLDelete(int key) {
+    public void AVLDelete(TreeNodeDataType n) {
 
-        //TreeNodeDataType m = nextElement(n).getParent();
-
-        TreeNodeDataType tndt = new TreeNodeDataType(key, null, null, null);
-        
-        TreeNodeDataType m = delete(tndt);
-        
-        rebalance(m);
+        //setM(nextElement(n));
+        delete(n);
+        rebalance(getM());
     }
 
     public ArrayList<TreeNodeDataType> rangeSearch(int start, int end, TreeNodeDataType root) {
@@ -200,47 +186,44 @@ public class BinarySearch {
     }
 
     private void remove(TreeNodeDataType node) {
-        System.out.println((int) node.getKey() + " removed");
+
         node = null;
+        System.out.println((int) node.getKey() + " removed");
     }
 
-    private void promote(TreeNodeDataType node, TreeNodeDataType child) {
+    private void promote(TreeNodeDataType child) {
 
-        System.out.println("promoting...");
-        
-        node.getParent().setParent(child);
-        
+        child.setParent(child.grandParent(child));
 
+        System.out.println("promoting..." + (int) child.getKey());
+        System.out.println("novo pai " + (int) child.getParent().getKey());
     }
 
     private void replace(TreeNodeDataType node, TreeNodeDataType x) {
 
-        System.out.print(" "+(int)node.getKey());
-        System.out.println("changed for");
+//        TreeNodeDataType aux = x;
+//
+//        x = node;
+//
+//        node = aux;
         
-        TreeNodeDataType aux = x;
+        node.setKey(x.getKey());
 
-        x = node;
-
-        node = aux;
-
-        System.out.print(" "+(int)node.getKey());
-        
     }
 
     public TreeNodeDataType nearestNeighbor(int key, TreeNodeDataType root) {
-        
+
         TreeNodeDataType node = find(key, root);
-        
+
         TreeNodeDataType proximo = nextElement(node);
         TreeNodeDataType anterior = previousElement(node);
-        
-        if( (int)proximo.getKey() < (int)anterior.getKey()){
+
+        if ((int) proximo.getKey() < (int) anterior.getKey()) {
             return proximo;
-        }else{
+        } else {
             return anterior;
         }
-        
+
     }
 
     public void rebalance(TreeNodeDataType n) {
@@ -288,7 +271,7 @@ public class BinarySearch {
 
         TreeNodeDataType m = n.getLeftChild();
 
-        if ( m.getRightChild().getHeight() >  m.getLeftChild().getHeight()) {
+        if (m.getRightChild().getHeight() > m.getLeftChild().getHeight()) {
             rotateLeft(m);
         }
         rotateRight(n);
@@ -307,31 +290,28 @@ public class BinarySearch {
 
     }
 
-    
     private void adjustHeight(TreeNodeDataType n) {
 
-//        if (n != null) {
-//            //n.adjustHeight();
-//            n.teorema(n);
-//        }
-//
-//        if (n.getLeftChild() != null) {
-//            //n.getLeftChild().adjustHeight();
-//            n.teorema(n.getLeftChild());
-//        }
-//
-//        if (n.getRightChild() != null) {
-//            //n.getRightChild().adjustHeight();
-//            n.teorema(n.getRightChild());
-//        }
+        int left = 0;
+        int right = 0;
 
-        n.setHeight(n.height(n));
+        if (n.getLeftChild() != null) {
+            left = n.getLeftChild().getHeight();
+        }
 
+        if (n.getRightChild() != null) {
+            n.getRightChild().getHeight();
+        }
+
+        n.setHeight(1 + Math.max(left, right));
+
+        //System.out.println("adjusting height...");
     }
 
     private void rotateLeft(TreeNodeDataType grandParent) {
 
-        TreeNodeDataType temp = null;
+        TreeNodeDataType temp;
+        temp = null;
 
         temp = grandParent.getRightChild();
         grandParent.setRightChild(temp.getLeftChild());
@@ -340,6 +320,7 @@ public class BinarySearch {
 
     }
 
+    @Deprecated
     private void right(TreeNodeDataType grandParent) {
 
         TreeNodeDataType temp = null;
@@ -361,7 +342,7 @@ public class BinarySearch {
 
         y.setParent(p);
 
-        p.appropriateChild(y);
+        p.appropriateChild(y);//new p height
 
         x.setParent(y);
         y.setRightChild(x);
@@ -379,48 +360,50 @@ public class BinarySearch {
             return;
         }
         inOrderTraversal(tree.getLeftChild());
-        print(tree.getKey());
+        printKey(tree.getKey());
         printHeight(tree.getHeight());
         inOrderTraversal(tree.getRightChild());
 
     }
-    
+
     //TODO: Queue x Stack x Java Collections
-    /**Breadth-first*/
-    public void levelTraversal(TreeNodeDataType tree){
-        
+    /**
+     * Breadth-first
+     */
+    public void levelTraversal(TreeNodeDataType tree) {
+
         System.out.println("\nlevelTraversal");
-        
-        if (tree == null){
+
+        if (tree == null) {
             return;
         }
-        
+
         QueueAbstractDataType q = new QueueAbstractDataType();
-        
+
         //List<TreeNodeDataType> q = new Stack<>();
         q.enqueue(tree);//root
-        
-        while(!q.isEmpty()){
-            
+
+        while (!q.isEmpty()) {
+
             TreeNodeDataType node = q.dequeue();
-            
-            if(node != null && node.getKey() != null){
+
+            if (node != null && node.getKey() != null) {
                 System.out.print(" " + (int) node.getKey());
-                
-                if(node.getLeftChild() != null){
-                q.enqueue(node.getLeftChild());
+
+                if (node.getLeftChild() != null) {
+                    q.enqueue(node.getLeftChild());
+                }
+                if (node.getRightChild() != null) {
+                    q.enqueue(node.getRightChild());
+
+                }
+
             }
-            if(node.getRightChild() != null){
-                q.enqueue(node.getRightChild());
-                
-            }
-                
-            }
-            
+
         }
     }
 
-    public void print(Object key) {
+    public void printKey(Object key) {
         System.out.print("{ key:" + (int) key);
     }
 
@@ -430,15 +413,30 @@ public class BinarySearch {
 
     }
 
+    //TODO:
     private TreeNodeDataType previousElement(TreeNodeDataType node) {
-        
+
         TreeNodeDataType t = node.getLeftChild();
-        
-        if( t != null){
+
+        if (t != null) {
             return t;
         }
-        
+
         return null;
+    }
+
+    private TreeNodeDataType getM() {
+        return m;
+    }
+
+    /**
+     * Parent of node replacing N inside AVLDelele(N)
+     */
+    private void setM(TreeNodeDataType nodeReplacingN) {
+        this.m = nodeReplacingN;
+
+        System.out.println("setM " + (int) this.m.getKey());
+
     }
 
 }

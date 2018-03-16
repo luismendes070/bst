@@ -31,7 +31,7 @@ public class TreeNodeDataType implements TreeInterface, BinarySearchTreeInterfac
 
         setRightChild(rightChild);
         
-        setHeight(height(this));
+        //setHeight(height(this));
         
 
     }
@@ -50,6 +50,7 @@ public class TreeNodeDataType implements TreeInterface, BinarySearchTreeInterfac
 
     public void setLeftChild(TreeNodeDataType leftChild) {
         this.leftChild = leftChild;
+        
     }
 
     public TreeNodeDataType getRightChild() {
@@ -74,6 +75,7 @@ public class TreeNodeDataType implements TreeInterface, BinarySearchTreeInterfac
 
     public void setRightChild(TreeNodeDataType rightChild) {
         this.rightChild = rightChild;
+        
     }
 
     public int getHeight() {
@@ -95,9 +97,11 @@ public class TreeNodeDataType implements TreeInterface, BinarySearchTreeInterfac
 
         if (keyNovoPai < keyNovoChild) {
             setRightChild(y);
+            setHeight(height(y));
         }
         if (keyNovoPai > keyNovoChild) {
             setLeftChild(y);
+            setHeight(height(y));
         }
     }
 
@@ -112,16 +116,23 @@ public class TreeNodeDataType implements TreeInterface, BinarySearchTreeInterfac
     public void setHeight(int height) {
         this.height = height;
     }
+    
+    
 
     @Override
     public int height(TreeNodeDataType node) {
-
+        
         if (node == null) {
+            
+            //System.out.println("Adjusting height for "+node.getKey());
+            
             return 0;
         }
 
         if (node.getLeftChild() != null && node.getRightChild() != null) {
 
+            //System.out.println("Adjusting height for "+node.getKey());
+            
             return 1 + Math.max(
                     height(node.getLeftChild()),
                     height(node.getRightChild())
@@ -215,6 +226,10 @@ public class TreeNodeDataType implements TreeInterface, BinarySearchTreeInterfac
         }
 
         return Math.abs(a - b) <= 1;
+    }
+
+    public void setHeight() {
+        this.height = height(this);
     }
 
 }

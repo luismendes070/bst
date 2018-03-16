@@ -120,10 +120,6 @@ public class CourseraStanford {
         if(novo.getParent() != null){
             System.out.println("\nParent: "+(int)novo.getParent().getKey());
         }
-        
-        key = 7;
-        System.out.println("Calculating AVLDelete("+key+")...");
-        bst.AVLDelete(key);
 
         System.out.println("inOrderTraversal");
         bst.inOrderTraversal(bst.root);
