@@ -20,10 +20,10 @@ public class Main {
 
     public static void main(String[] args) {
 
-        //CourseraStanford cs = new CourseraStanford();
+        CourseraStanford cs = new CourseraStanford();
         CSDelete csd = new CSDelete();
-        //YouTube yt = new YouTube();
-        
+        YouTube yt = new YouTube();
+
     }
-    
+
 }

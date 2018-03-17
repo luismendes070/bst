@@ -106,6 +106,7 @@ public class TreeNodeDataType implements TreeInterface, BinarySearchTreeInterfac
     }
 
     public TreeNodeDataType grandParent(TreeNodeDataType paiDoNeto) {
+        
         return paiDoNeto.getParent();
     }
 

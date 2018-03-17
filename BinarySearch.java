@@ -151,18 +151,23 @@ public class BinarySearch {
 
             TreeNodeDataType x = nextElement(n);
 
-            if (x.getLeftChild() != null) {
+            if (x.getLeftChild() == null) {
 
                 setM(x.getParent());
 
                 replace(n, x);
-                promote(x.getRightChild());
+
+                if (x.getRightChild() != null) {
+                    promote(x.getRightChild());
+                }
 
             }
         }
     }
 
     public void AVLDelete(TreeNodeDataType n) {
+
+        System.out.println("\nCalculating AVLDelete(" + (int) n.getKey() + ")...");
 
         //setM(nextElement(n));
         delete(n);
@@ -187,15 +192,17 @@ public class BinarySearch {
 
     private void remove(TreeNodeDataType node) {
 
-        node = null;
         System.out.println((int) node.getKey() + " removed");
+        node = null;
+
     }
 
     private void promote(TreeNodeDataType child) {
 
+        System.out.println("promoting..." + (int) child.getKey());
+
         child.setParent(child.grandParent(child));
 
-        System.out.println("promoting..." + (int) child.getKey());
         System.out.println("novo pai " + (int) child.getParent().getKey());
     }
 
@@ -206,8 +213,9 @@ public class BinarySearch {
 //        x = node;
 //
 //        node = aux;
-        
         node.setKey(x.getKey());
+
+        inOrderTraversal(x);
 
     }
 
@@ -320,16 +328,6 @@ public class BinarySearch {
 
     }
 
-    @Deprecated
-    private void right(TreeNodeDataType grandParent) {
-
-        TreeNodeDataType temp = null;
-
-        temp = grandParent.getLeftChild();
-        grandParent.setLeftChild(temp.getRightChild());
-
-    }
-
     private void rotateRight(TreeNodeDataType x) {
 
         TreeNodeDataType p = null;
@@ -366,7 +364,6 @@ public class BinarySearch {
 
     }
 
-    //TODO: Queue x Stack x Java Collections
     /**
      * Breadth-first
      */
@@ -430,13 +427,13 @@ public class BinarySearch {
     }
 
     /**
-     * Parent of node replacing N inside AVLDelele(N)
+     * Parent of node replacing N inside AVLDelete(N)
      */
     private void setM(TreeNodeDataType nodeReplacingN) {
+
         this.m = nodeReplacingN;
 
-        System.out.println("setM " + (int) this.m.getKey());
-
+        //System.out.println("setM " + (int) this.m.getKey());
     }
 
 }

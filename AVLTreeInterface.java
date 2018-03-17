@@ -12,7 +12,7 @@ import avltree.TreeNodeDataType;
  * @author luism
  */
 public interface AVLTreeInterface {
-
+    
     boolean isAVLProperty(TreeNodeDataType node);
     
 }

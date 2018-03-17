@@ -12,11 +12,14 @@ package avltree;
  * Input
  * 
  *              9
+ *             / \
  *          1(x) null
- *   6
- *  2   7
- *null  4 null 8
- * 3 5
+ *          /\
+ *            6
+ *          2   7
+ *      null  4 null 8
+ *      / \
+ *     3   5
  *
  * Output
  *   9

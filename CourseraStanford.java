@@ -126,7 +126,8 @@ public class CourseraStanford {
     
         System.out.println("Size: "+bst.root.size());
         
-        //TODO: delete root
+        bst.AVLDelete(novo);
+        bst.AVLDelete(bst.root);
         
         bst.levelTraversal(bst.root);
         
